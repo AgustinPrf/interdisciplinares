@@ -211,42 +211,40 @@
     <script>
         // Función para cifrar un texto usando el cifrado Atbash
         function cifrarAtbash(texto) {
-            return texto
-                .toUpperCase()
-                .split('')
-                .map((caracter) => {
-                    if (caracter >= 'A' && caracter <= 'Z') {
-                        return String.fromCharCode(155 - caracter.charCodeAt(0)); // Fórmula Atbash
-                    }
-                    return caracter;
-                })
-                .join('');
-        }
-
-        // Función para comprobar si el usuario ha acertado
-        function comprobarCifrado() {
-            const textoOriginal = document.getElementById('texto-original').value.toUpperCase();
-            const textoCifrado = cifrarAtbash(textoOriginal);
-            const inputUsuario = document.getElementById('texto-cifrado').value.toUpperCase();
-
-            // Mostrar el texto cifrado en la consola (como truco)
-            console.log(`Texto cifrado correcto: ${textoCifrado}`);
-
-            if (inputUsuario.toUpperCase() === textoCifrado.toUpperCase()) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Correcto!',
-                    text: 'Has descifrado el mensaje correctamente.',
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Incorrecto',
-                    text: 'El texto cifrado no es correcto. Inténtalo de nuevo.',
-                });
+    return texto
+        .toUpperCase()
+        .split('')
+        .map((caracter) => {
+            if (caracter >= 'A' && caracter <= 'Z') {
+                return String.fromCharCode(155 - caracter.charCodeAt(0)); // Fórmula Atbash
             }
-        }
+            return caracter; // Mantener otros caracteres sin cambios
+        })
+        .join('');
+}
 
+function comprobarCifrado() {
+    const textoOriginal = document.getElementById('texto-original').value.toUpperCase();
+    const textoCifrado = cifrarAtbash(textoOriginal);
+    const inputUsuario = document.getElementById('texto-cifrado').value.toUpperCase();
+
+    // Mostrar el texto cifrado en la consola (como truco)
+    console.log(`Texto cifrado correcto: ${textoCifrado}`);
+
+    if (inputUsuario === textoCifrado) {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Correcto!',
+            text: 'Has descifrado el mensaje correctamente.',
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Incorrecto',
+            text: `El texto cifrado no es correcto`,
+        });
+    }
+}
         // Función para mostrar ayuda al hacer clic en la imagen
         function mostrarAyuda() {
             Swal.fire({
