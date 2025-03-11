@@ -64,10 +64,27 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
+        /* Contenedor de la imagen de portada */
+        #portada-principal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            background: #f4f4f9;
+        }
+
+        #portada-principal img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
         iframe {
             width: 100%;
             height: calc(100vh - 180px); /* Ajuste por el header y menú */
             border: none;
+            display: none; /* Ocultar inicialmente */
         }
     </style>
 
@@ -86,6 +103,12 @@
         <button onclick="cargarConCodigo('radar/radar.html', ['agustin', '. .-.. . -.-. - .-. --- -.. --- -- . ... - .. -.-. ---', '.. -. - . .-. -. .- -.-. .. --- -. .- .-.. .. --.. .- -.-. .. --- -.','-.. . ... .--. .-. --- .--. --- .-. -.-. .. --- -. .- -.. ---','.. -. -.-. --- -. ... - .. - ..- -.-. .. --- -. .- .-..','. -..- - .-. .- - . .-. .-. . ... - .-. .','-.. . ... .- ..-. --- .-. - ..- -. .- -.. .- -- . -. - .','. .-. . -.-. --- -. --- -.-. .. -- .. . -. - --- ...','.. -. -.-. --- -- ..- -. .. -.-. .- -... .. .-.. .. -.. .- -..','-.. . --- -..- .. .-. .-. .. -... --- -. ..- -.-. .-.. . .. -.-. ---','.. -. - . .-. -.. . .--. . -. -.. . -. -.-. .. .-'])">Radar</button>
     </nav>
 
+    <!-- Contenedor de la imagen de portada -->
+    <div id="portada-principal">
+        <img src="atbash/imagenes/portada-principal.webp" alt="Portada principal">
+    </div>
+
+    <!-- Iframe para cargar las páginas -->
     <iframe id="visor" src=""></iframe>
 
     <!-- SweetAlert2 JS -->
@@ -103,6 +126,11 @@
                 if (resultado.isConfirmed) {
                     const codigoIngresado = resultado.value.trim();
                     if (codigosValidos.includes(codigoIngresado)) {
+                        // Ocultar la imagen de portada
+                        document.getElementById('portada-principal').style.display = 'none';
+                        // Mostrar el iframe
+                        document.getElementById('visor').style.display = 'block';
+                        // Cargar la página
                         document.getElementById('visor').src = pagina;
                     } else {
                         Swal.fire({
