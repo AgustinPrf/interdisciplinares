@@ -238,7 +238,7 @@
             // Mostrar el texto cifrado en la consola (como truco)
             console.log(`Texto cifrado correcto: ${textoCifrado}`);
 
-            if (inputUsuario === textoCifrado) {
+            if (inputUsuario.toUpperCase() === textoCifrado.toUpperCase()) {
                 Swal.fire({
                     icon: 'success',
                     title: '¡Correcto!',
