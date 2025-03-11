@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Jornadas Interdisciplinares - Criptografía - IES Francisco de Goya</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        /* Menú centrado y moderno */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        nav button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            min-width: 120px;
+        }
+
+        nav button:hover {
+            background: linear-gradient(135deg, #357abd, #285c9e);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        nav button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Fondo degradado superior */
+        header {
+            height: 120px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100vh - 180px); /* Ajuste por el header y menú */
+            border: none;
+        }
+    </style>
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+
+    <header>Jornadas Interdisciplinares - Criptografía - IES Francisco de Goya</header>
+
+    <nav>
+        <button onclick="cargarConCodigo('atbash/atbash.html',['agustin','goya','francisco'] )">Atbash</button>
+        <button onclick="cargarConCodigo('cesar/cesar.html', ['agustin','VOVXGILMWLNVHRXRL', 'RMGIVMZRXORZOAVRARLM', 'WVHKILIKILRXLMRWZL', 'RMXLMHGRHFXROVMZO', 'VCIGZIVVIIVHGIV', 'WVHZUKLFIMFZMVZOV', 'IVXLMXRVTNVGLMH', 'RMXLNFRMXRZOZYORZG', 'WVHLERIYYLFMVOFOVXRL', 'RMGVIWVKVMVXMRXZR'])">César</button>
+        <button onclick="cargarConCodigo('polibio/polibio.html',['agustin','LSLKYAVUKVTLZJPVJ', 'PUAHYPUHJPHPZPTPUHSP', 'KLZWHYVWHYVPUAVUKV', 'PUJVZAPZAPBUJPZPHS', 'LEAYHLYLYOAYLYL', 'KLZHPMVBPUHUKHLUKL', 'YLJVUJHPJPLUAVPZ', 'PUJVBTPUJPHSHISPZ', 'KLZVEPYYIVBVSUJPVRJV', 'PUAKYLKLUKLUJPUJPH'] )">Polibio</button>
+        <button onclick="cargarConCodigo('morse/morse.html', ['agustin','15 31 15 13 44 24 42 14 34 15 32 44 24 13 23', '24 33 44 15 42 33 11 13 24 33 11 31 24 13 24 23 24 33', '14 15 34 42 24 42 24 42 13 24 33 23 14 24 14', '24 33 13 24 34 44 24 44 13 24 33 23 24 33 11 31', '15 35 44 42 11 44 42 42 15 34 44 42 15', '14 15 34 11 24 42 44 42 33 11 14 11 33 44 15 44', '42 15 13 24 33 24 13 24 33 15 44 24 33 34', '24 33 13 24 32 33 24 13 11 12 24 31 24 14 11 14', '14 15 24 35 24 42 24 42 24 33 24 33 13 31 15 13 24', '24 33 44 15 42 14 15 42 33 14 15 33 13 24 11'])">Morse</button>
+        <button onclick="cargarConCodigo('radar/radar.html', ['agustin','. .-.. . -.-. - .-. --- -.. --- -- . ... - .. -.-. ---', '.. -. - . .-. -. .- -.-. .. --- -. .- .-.. .. --.. .- -.-. .. --- -.', '-.. . ... .--. .-. --- .--. --- .-. -.-. .. --- -. .- -.. ---', '.. -. -.-. --- -. ... - .. - ..- -.-. .. --- -. .- .-..', '. -..- - .-. .- - . .-. .-. . ... - .-. .', '-.. . ... .- ..-. --- .-. - ..- -. .- -.. .- -- . -. - .', '.-. . -.-. --- -. --- -.-. .. -- .. . -. - --- ...', '.. -. -.-. --- -- ..- -. .. -.-. .- -... .. .-.. .. -.. .- -..', '-.. . --- -..- .. .-. .-. .. -... --- -. ..- -.-. .-.. . .. -.-. ---', '.. -. - . .-. -.. . .--. . -. -.. . -. -.-. .. .-'])">Radar</button>
+    </nav>
+
+    <iframe id="visor" src=""></iframe>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function cargarConCodigo(pagina, codigosValidos) {
+            Swal.fire({
+                title: 'Introduce el código de acceso',
+                input: 'password',
+                inputPlaceholder: 'Escribe el código...',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+            }).then((resultado) => {
+                if (resultado.isConfirmed) {
+                    const codigoIngresado = resultado.value.trim();
+                    if (codigosValidos.includes(codigoIngresado)) {
+                        document.getElementById('visor').src = pagina;
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Código incorrecto',
+                            text: 'El código que has introducido no es válido. Intenta de nuevo.'
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

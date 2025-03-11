@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Código Morse - IES Francisco de Goya</title>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cabecera */
+        header {
+            background: linear-gradient(135deg, #8bc34a, #4caf50);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .icono {
+            width: 150px; /* Tamaño del icono */
+            height: 150px;
+            margin-right: 50px; /* Espacio entre el icono y el texto */
+        }
+
+        .texto-cabecera {
+            text-align: left;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 20px;
+            font-weight: normal;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #ffd700;
+            margin: 10px 0;
+            border-radius: 2px;
+        }
+
+        /* Título "Código Morse" */
+        .titulo-cifrado {
+            width: 80%;
+            text-align: center;
+            margin: 40px 0 20px;
+        }
+
+        .titulo-cifrado h1 {
+            font-size: 48px;
+            color: #4caf50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 0;
+        }
+
+        .titulo-cifrado h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background-color: #ffd700;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Estilos para los diálogos */
+        .swal2-popup .swal2-content ul {
+            list-style-type: none; /* Elimina los puntos de la lista */
+            padding-left: 0;
+        }
+
+        .swal2-popup .swal2-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .contenedor-inputs {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .contenedor-inputs input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contenedor-inputs input:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+
+        .contenedor-inputs button {
+            padding: 12px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .contenedor-inputs button:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .contenedor-inputs button:active {
+            transform: translateY(0);
+        }
+
+        /* Contenedor de imagen e icono de ayuda */
+        .contenedor-imagen {
+            position: relative;
+            width: 60%;
+            margin-bottom: 20px;
+        }
+
+        .imagen-portada {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .imagen-portada:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .icono-ayuda {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            color: #4caf50;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .icono-ayuda:hover {
+            transform: scale(1.2);
+            color: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <!-- Icono -->
+        <img src="imagenes/icono-goya.png" alt="Icono IES Francisco de Goya" class="icono">
+        <!-- Texto -->
+        <div class="texto-cabecera">
+            <h1>Depto Informática</h1>
+            <h2>IES Francisco de Goya</h2>
+        </div>
+    </header>
+
+    <!-- Título "Código Morse" -->
+    <div class="titulo-cifrado">
+        <h1>Código Morse</h1>
+    </div>
+
+    <!-- Contenedor de imagen e icono de ayuda -->
+    <div class="contenedor-imagen">
+        <img src="imagenes/portada.jpg" alt="Portada" class="imagen-portada" onclick="mostrarAyuda()">
+        <span class="icono-ayuda" onclick="mostrarHistoria()">❓</span>
+    </div>
+
+    <!-- Inputs y botón -->
+    <div class="contenedor-inputs">
+        <input type="text" id="texto-original" placeholder="Texto original" value="SOS">
+        <input type="text" id="texto-cifrado" placeholder="Código Morse">
+        <button onclick="comprobarCifrado()">Comprobar</button>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Definición del código morse
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--', 'Z': '--..',
+            '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----',
+            '.': '.-.-.-', ',': '--..--', '?': '..--..', "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-', '&': '.-...', ':': '---...', ';': '-.-.-.',
+            '=': '-...-', '+': '.-.-.', '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.', ' ': '/'
+        };
+
+        // Función para convertir texto a morse
+        function convertirAMorse(texto) {
+            return texto.toUpperCase().split('').map((caracter) => {
+                return morseCode[caracter] || '';
+            }).join(' ');
+        }
+
+        // Función para comprobar el cifrado Morse
+        function comprobarCifrado() {
+            const textoOriginal = document.getElementById('texto-original').value;
+            const textoMorse = convertirAMorse(textoOriginal);
+            const inputUsuario = document.getElementById('texto-cifrado').value.toUpperCase();
+
+            // Mostrar el resultado en consola
+            console.log(`Texto en Morse correcto: ${textoMorse}`);
+
+            if (inputUsuario === textoMorse) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Correcto!',
+                    text: 'Has descifrado el mensaje correctamente.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Incorrecto',
+                    text: 'El texto cifrado no es correcto. Inténtalo de nuevo.',
+                });
+            }
+        }
+
+        // Función para mostrar ayuda al hacer clic en la imagen
+        function mostrarAyuda() {
+            Swal.fire({
+                title: '¿Cómo funciona el código Morse?',
+                html: `
+                    <p>El código Morse es un sistema de codificación de caracteres en el que cada letra, número o símbolo es representado por una secuencia de puntos y rayas. Cada letra del alfabeto se convierte en una combinación de puntos (.) y rayas (-).</p>
+                    <p><strong>Ejemplo:</strong></p>
+                    <p>A → .-, B → -..., C → -.-., ..., Z → --..</p>
+                    <p>¡Intenta convertir el texto a Morse!</p>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Entendido',
+                customClass: {
+                    content: 'swal2-content',
+                },
+            });
+        }
+
+        // Función para mostrar historia y curiosidades del código Morse
+        function mostrarHistoria() {
+            Swal.fire({
+                title: 'Historia y curiosidades del código Morse',
+                html: `
+                    <p>El código Morse fue desarrollado por Samuel Morse y Alfred Vail en los años 1830 y 1840. Se convirtió en un sistema de comunicación ampliamente utilizado en telegrafía y radio. En su forma original, el código Morse fue utilizado para transmitir mensajes a través de cables de telegrafía.</p>
+                    <p>Hoy en día, el código Morse se sigue usando en comunicaciones de emergencia y en la radioafición.</p>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Cerrar',
+            });
+        }
+    </script>
+</body>
+</html>

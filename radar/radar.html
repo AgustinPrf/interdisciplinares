@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar y Comunicaciones: Cómo la Informática Ayudó a la Guerra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            }
+            100% {
+                text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+            }
+        }
+
+        h2.subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ff6f61; /* Color naranja */
+            text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61;
+            animation: glow 2s infinite alternate;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background-color: #00ff00;
+            color: #1e1e2f;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tab-button:hover {
+            background-color: #00cc00;
+            transform: scale(1.1);
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #00ff00;
+            color: #1e1e2f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .input-container button:hover {
+            background-color: #00cc00;
+            transform: scale(1.1);
+        }
+
+        /* Animación del radar (parte superior) */
+        .radar {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #0a0a0a 0%, #1e1e2f 100%);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .radar::before {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2));
+            animation: radar-sweep 4s linear infinite;
+            transform-origin: right;
+        }
+
+        .radar::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 255, 0, 0.1) 100%);
+            animation: radar-pulse 2s infinite;
+        }
+
+        .object {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            animation: object-blink 1s infinite;
+        }
+
+        .object:nth-child(1) {
+            top: 20%;
+            left: 30%;
+        }
+
+        .object:nth-child(2) {
+            top: 50%;
+            left: 70%;
+        }
+
+        .object:nth-child(3) {
+            top: 80%;
+            left: 40%;
+        }
+
+        @keyframes radar-sweep {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes radar-pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes object-blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Animación de la señal (parte inferior) */
+        .signal-animation {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .radar-icon {
+            font-size: 3rem;
+            color: #00ff00;
+        }
+
+        .airplane {
+            font-size: 2rem;
+            color: #ffffff;
+            position: absolute;
+            right: 0;
+            animation: airplane-move 12s linear infinite; /* Más lento (1/3 de la velocidad) */
+        }
+
+        .signal {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00; /* Verde */
+            border-radius: 50%;
+            animation: signal-move 8s linear infinite;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @keyframes airplane-move {
+            0% {
+                transform: translateX(0) rotate(0deg);
+            }
+            50% {
+                transform: translateX(-100%) rotate(180deg); /* Gira y se mueve hacia el radar */
+            }
+            100% {
+                transform: translateX(0) rotate(360deg);
+            }
+        }
+
+        @keyframes signal-move {
+            0% {
+                left: 0;
+                background-color: #00ff00; /* Verde */
+            }
+            50% {
+                left: 100%;
+                background-color: #00ff00; /* Verde */
+            }
+            50.1% {
+                background-color: #ff0000; /* Rojo */
+            }
+            100% {
+                left: 0;
+                background-color: #ff0000; /* Rojo */
+            }
+        }
+
+        /* Estilos para el contenido */
+        .content, .history {
+            text-align: center;            
+            margin-top: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content h2, .history h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .content p, .history p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content ul, .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .content ul li, .history ul li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            animation: fadeInList 1s ease-in-out;
+        }
+
+        @keyframes fadeInList {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content ul li::before, .history ul li::before {
+            content: '➜';
+            position: absolute;
+            left: 0;
+            color: #00ff00;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+        }
+
+        .pistas {
+            font-size: 1.1rem;
+            color: #ff6f61; /* Color naranja */
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pestañas -->
+        <div class="tabs">
+            <button class="tab-button" onclick="showTab('pestaña1')">Pestaña 1</button>
+            <button class="tab-button" onclick="showTab('pestaña2')">Pestaña 2</button>
+        </div>
+
+        <!-- Contenido de la Pestaña 1 -->
+        <div id="pestaña1" class="tab-content active">
+            <h1>Radar y Comunicaciones: Cómo la Informática Ayudó a la Guerra</h1>
+            <h2 class="subtitle">¿Cómo funciona un radar?</h2>
+            <div class="pistas">
+                <p>Pista 1: Emite ondas de ......</p>
+                <p>Pista 2: Detecta objetos ..... las ondas.</p>
+                <p>Pista 3: Calcula distancia, velocidad y dirección gracias a.....</p>
+            </div>
+
+            <!-- Animación del radar -->
+            <div class="radar">
+                <div class="object"></div>
+                <div class="object"></div>
+                <div class="object"></div>
+            </div>
+
+            <!-- Input y botón para mostrar el funcionamiento del radar -->
+            <div class="input-container">
+                <input type="text" id="passwordInput1" placeholder="Introduce la palabra clave">
+                <button onclick="showContent('pestaña1')">Aceptar</button>
+            </div>
+
+            <!-- Contenido del funcionamiento del radar (oculto inicialmente) -->
+            <div id="funcionamiento" class="content" style="display: none;">
+                <h2>Funcionamiento del Radar</h2>
+                <p>
+                    El radar es un sistema que utiliza ondas de radio para detectar y localizar objetos. Su funcionamiento se basa en tres principios fundamentales:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Emisión de ondas de radio:</strong> El radar emite ondas de radio, generalmente en forma de pulsos, que viajan a través del aire.
+                    </li>
+                    <li>
+                        <strong>Reflexión de las ondas:</strong> Cuando las ondas encuentran un objeto (como un avión o un barco), se reflejan y regresan hacia el radar.
+                    </li>
+                    <li>
+                        <strong>Recepción y cálculo:</strong> El radar recibe las ondas reflejadas y, usando el tiempo que tardan en volver, calcula la distancia al objeto. También mide la velocidad mediante el efecto Doppler (cambio en la frecuencia de la onda debido al movimiento del objeto) y determina la dirección mediante la orientación de su antena.
+                    </li>
+                </ul>
+                <p>
+                    Este proceso permite que el radar detecte y siga objetos, calculando su ubicación, velocidad y trayectoria.
+                </p>
+            </div>
+        </div>
+
+        <!-- Contenido de la Pestaña 2 -->
+        <div id="pestaña2" class="tab-content">
+            <h1>Radar y Comunicaciones: Cómo la Informática Ayudó a la Guerra</h1>
+            <h2 class="subtitle">¿Cómo usaron el radar en la Segunda Guerra Mundial?</h2>
+            <div class="pistas">
+                <p>Pista 1: Detección de aviones enemigos.</p>
+                <p>Pista 2: Protección de convoyes navales.</p>
+                <p>Pista 3: Engaño en el Día D.</p>
+            </div>
+
+            <!-- Animación de la señal -->
+            <div class="signal-animation">
+                <i class="fas fa-satellite-dish radar-icon"></i>
+                <div class="signal"></div>
+                <i class="fas fa-plane airplane"></i>
+            </div>
+
+            <!-- Input y botón para mostrar la historia y anécdotas -->
+            <div class="input-container">
+                <input type="text" id="passwordInput2" placeholder="Introduce la palabra clave">
+                <button onclick="showContent('pestaña2')">Aceptar</button>
+            </div>
+
+            <!-- Contenido de la historia y anécdotas (oculto inicialmente) -->
+            <div id="historia" class="history" style="display: none;">
+                <h2>Historia y Anécdotas del Radar en la Segunda Guerra Mundial</h2>
+                <p>
+                    El radar fue una tecnología revolucionaria durante la Segunda Guerra Mundial, crucial para la defensa aérea y naval. Su desarrollo y uso cambiaron el curso de la guerra.
+                </p>
+                <ul>
+                    <li>
+                        <strong>Orígenes y Desarrollo:</strong> Basado en descubrimientos de científicos como Heinrich Hertz y Nikola Tesla, el Reino Unido desarrolló el primer sistema práctico de radar, la <strong>Cadena de Estaciones de Radar</strong> (Chain Home).
+                    </li>
+                    <li>
+                        <strong>Batalla de Inglaterra:</strong> El radar permitió a los británicos detectar aviones alemanes a larga distancia, siendo clave para interceptar bombarderos enemigos. Los alemanes no destruyeron completamente las estaciones de radar, manteniendo la ventaja británica.
+                    </li>
+                    <li>
+                        <strong>Guerra Naval:</strong> En el mar, el radar ayudó a detectar submarinos y barcos enemigos, especialmente en la <strong>Batalla del Atlántico</strong>. Los aliados usaron radares para proteger convoyes de los ataques de los U-Boot alemanes.
+                    </li>
+                    <li>
+                        <strong>Anecdotas Curiosas:</strong>
+                        <ul>
+                            <li>El <strong>H2S</strong>, un radar aerotransportado británico que permitía bombardear objetivos de noche. Los alemanes lo capturaron pero no lograron replicarlo.</li>
+                            <li>El <strong>Magnetrón</strong>, un dispositivo británico que generaba microondas de alta frecuencia, fue compartido con EE.UU. en la <strong>Misión Tizard</strong>.</li>
+                            <li>En el <strong>Día D</strong>, los aliados usaron radares y señuelos para engañar a los alemanes durante el <strong>Desembarco de Normandía</strong>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para mostrar el contenido si la palabra clave es correcta
+        function showContent(tab) {
+            const passwordInput = document.getElementById(`passwordInput${tab === 'pestaña1' ? '1' : '2'}`).value;
+            const correctPassword = tab === 'pestaña1' ? 'frecuencia' : 'normandia';
+            const contentId = tab === 'pestaña1' ? 'funcionamiento' : 'historia';
+
+            if (passwordInput.toLowerCase() === correctPassword) {
+                document.getElementById(contentId).style.display = 'block';
+            } else {
+                alert('Palabra clave incorrecta. Inténtalo de nuevo.');
+            }
+        }
+
+        // Función para cambiar entre pestañas
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.getElementById(tabName).style.display = 'block';
+        }
+
+        // Mostrar la primera pestaña por defecto
+        showTab('pestaña1');
+    </script>
+</body>
+</html>

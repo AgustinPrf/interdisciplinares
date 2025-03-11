@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifrado Atbash - IES Francisco de Goya</title>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* Verde pastel */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cabecera */
+        header {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .icono {
+            width: 150px; /* Tamaño del icono */
+            height: 150px;
+            margin-right: 50px; /* Espacio entre el icono y el texto */
+        }
+
+        .texto-cabecera {
+            text-align: left;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 20px;
+            font-weight: normal;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #ffd700;
+            margin: 10px 0;
+            border-radius: 2px;
+        }
+
+        /* Título "Cifrado Atbash" */
+        .titulo-cifrado {
+            width: 80%;
+            text-align: center;
+            margin: 40px 0 20px;
+        }
+
+        .titulo-cifrado h1 {
+            font-size: 48px;
+            color: #4a90e2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 0;
+        }
+
+        .titulo-cifrado h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background-color: #ffd700;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Contenedor de imagen e icono de ayuda */
+        .contenedor-imagen {
+            position: relative;
+            width: 60%;
+            margin-bottom: 20px;
+        }
+
+        .imagen-portada {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .imagen-portada:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .icono-ayuda {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            color: #4a90e2;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .icono-ayuda:hover {
+            transform: scale(1.2);
+            color: #357abd;
+        }
+
+        /* Inputs y botón */
+        .contenedor-inputs {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .contenedor-inputs input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contenedor-inputs input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+
+        .contenedor-inputs button {
+            padding: 12px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .contenedor-inputs button:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .contenedor-inputs button:active {
+            transform: translateY(0);
+        }
+
+        /* Estilos para el diálogo de ayuda */
+        .swal2-popup .swal2-content ul {
+            list-style-type: none; /* Elimina los puntos de la lista */
+            padding-left: 0;
+        }
+
+        .swal2-popup .swal2-content ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <!-- Icono -->
+        <img src="imagenes/icono-goya.png" alt="Icono IES Francisco de Goya" class="icono">
+        <!-- Texto -->
+        <div class="texto-cabecera">
+            <h1>Cifrado Atbash</h1>
+            <h2>IES Francisco de Goya</h2>
+        </div>
+    </header>
+   
+
+    <!-- Contenedor de imagen e icono de ayuda -->
+    <div class="contenedor-imagen">
+        <img src="imagenes/portada.jpg" alt="Portada" class="imagen-portada" onclick="mostrarAyuda()">
+        <span class="icono-ayuda" onclick="mostrarHistoria()">❓</span>
+    </div>
+
+    <!-- Inputs y botón -->
+    <div class="contenedor-inputs">
+        <input type="text" id="texto-original" placeholder="Texto original" value="">
+        <input type="text" id="texto-cifrado" placeholder="Texto cifrado">
+        <button onclick="comprobarCifrado()">Comprobar</button>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Función para cifrar un texto usando el cifrado Atbash
+        function cifrarAtbash(texto) {
+            return texto
+                .toUpperCase()
+                .split('')
+                .map((caracter) => {
+                    if (caracter >= 'A' && caracter <= 'Z') {
+                        return String.fromCharCode(155 - caracter.charCodeAt(0)); // Fórmula Atbash
+                    }
+                    return caracter;
+                })
+                .join('');
+        }
+
+        // Función para comprobar si el usuario ha acertado
+        function comprobarCifrado() {
+            const textoOriginal = document.getElementById('texto-original').value.toUpperCase();
+            const textoCifrado = cifrarAtbash(textoOriginal);
+            const inputUsuario = document.getElementById('texto-cifrado').value.toUpperCase();
+
+            // Mostrar el texto cifrado en la consola (como truco)
+            console.log(`Texto cifrado correcto: ${textoCifrado}`);
+
+            if (inputUsuario === textoCifrado) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Correcto!',
+                    text: 'Has descifrado el mensaje correctamente.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Incorrecto',
+                    text: 'El texto cifrado no es correcto. Inténtalo de nuevo.',
+                });
+            }
+        }
+
+        // Función para mostrar ayuda al hacer clic en la imagen
+        function mostrarAyuda() {
+            Swal.fire({
+                title: '¿Cómo funciona el cifrado Atbash?',
+                html: `
+                    <p>El cifrado Atbash es un método de cifrado por sustitución en el que se invierte el alfabeto. Cada letra del alfabeto se sustituye por su opuesta (A → Z, B → Y, etc.).</p>
+                    <p><strong>Ejemplo:</strong></p>
+                    <p>A → Z, B → Y, C → X, ..., Z → A</p>
+                    <p>¡Intenta descifrar el mensaje!</p>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Entendido',
+                customClass: {
+                    content: 'swal2-content',
+                },
+            });
+        }
+
+        // Función para mostrar historia y curiosidades del cifrado Atbash
+        function mostrarHistoria() {
+            Swal.fire({
+                title: 'Historia y curiosidades del cifrado Atbash',
+                html: `
+                    <p>El cifrado Atbash es uno de los métodos de cifrado más antiguos y se originó en la antigua Grecia. Es un tipo de cifrado por sustitución simétrica.</p>
+                    <p><strong>Curiosidades:</strong></p>
+                    <ul>
+                        <li>El cifrado Atbash se menciona en la Biblia, en el Libro de Jeremías.</li>
+                        <li>Este cifrado fue utilizado como base para otros métodos de cifrado más complejos.</li>
+                        <li>El Atbash es uno de los métodos más simples, pero efectivo en su tiempo.</li>
+                    </ul>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Entendido',
+                customClass: {
+                    content: 'swal2-content',
+                },
+            });
+        }
+    </script>
+</body>
+</html>

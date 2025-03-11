@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifrado Polibio - IES Francisco de Goya</title>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffcc80; /* Color naranja de fondo */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cabecera */
+        header {
+            background: linear-gradient(135deg, #ff9800, #ff5722); /* Color naranja */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .icono {
+            width: 150px; /* Tamaño del icono */
+            height: 150px;
+            margin-right: 50px; /* Espacio entre el icono y el texto */
+        }
+
+        .texto-cabecera {
+            text-align: left;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 20px;
+            font-weight: normal;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #ffd700;
+            margin: 10px 0;
+            border-radius: 2px;
+        }
+
+        /* Título "Cifrado Polibio" */
+        .titulo-cifrado {
+            width: 80%;
+            text-align: center;
+            margin: 40px 0 20px;
+        }
+
+        .titulo-cifrado h1 {
+            font-size: 48px;
+            color: #ff5722; /* Color naranja */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 0;
+        }
+
+        .titulo-cifrado h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background-color: #ffd700;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Estilos para los diálogos */
+        .swal2-popup .swal2-content ul {
+            list-style-type: none; /* Elimina los puntos de la lista */
+            padding-left: 0;
+        }
+
+        .swal2-popup .swal2-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .contenedor-inputs {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .contenedor-inputs input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contenedor-inputs input:focus {
+            border-color: #ff5722;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+
+        .contenedor-inputs button {
+            padding: 12px 20px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .contenedor-inputs button:hover {
+            background-color: #e64a19;
+            transform: translateY(-2px);
+        }
+
+        .contenedor-inputs button:active {
+            transform: translateY(0);
+        }
+
+        /* Contenedor de imagen e icono de ayuda */
+        .contenedor-imagen {
+            position: relative;
+            width: 60%;
+            margin-bottom: 20px;
+        }
+
+        .imagen-portada {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .imagen-portada:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .icono-ayuda {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            color: #ff5722;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .icono-ayuda:hover {
+            transform: scale(1.2);
+            color: #e64a19;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <!-- Icono -->
+        <img src="imagenes/icono-goya.png" alt="Icono IES Francisco de Goya" class="icono">
+        <!-- Texto -->
+        <div class="texto-cabecera">
+            <h1>Depto Informática</h1>
+            <h2>IES Francisco de Goya</h2>
+        </div>
+    </header>
+
+    <!-- Título "Cifrado Polibio" -->
+    <div class="titulo-cifrado">
+        <h1>Cifrado Polibio</h1>
+    </div>
+
+    <!-- Contenedor de imagen e icono de ayuda -->
+    <div class="contenedor-imagen">
+        <img src="imagenes/portada.jpg" alt="Portada" class="imagen-portada" onclick="mostrarAyuda()">
+        <span class="icono-ayuda" onclick="mostrarHistoria()">❓</span>
+    </div>
+
+    <!-- Inputs y botón -->
+    <div class="contenedor-inputs">
+        <input type="text" id="texto-original" placeholder="Texto original" value="HELLO">
+        <input type="text" id="texto-cifrado" placeholder="Texto Cifrado">
+        <button onclick="comprobarCifrado()">Comprobar</button>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Definición del cifrado Polibio
+        const polibioCode = {
+            'A': '11', 'B': '12', 'C': '13', 'D': '14', 'E': '15',
+            'F': '21', 'G': '22', 'H': '23', 'I': '24', 'J': '24', 'K': '25',
+            'L': '31', 'M': '32', 'N': '33', 'O': '34', 'P': '35',
+            'Q': '41', 'R': '42', 'S': '43', 'T': '44', 'U': '45',
+            'V': '51', 'W': '52', 'X': '53', 'Y': '54', 'Z': '55'
+        };
+
+        // Función para convertir texto a cifrado Polibio
+        function convertirAPolibio(texto) {
+            return texto.toUpperCase().split('').map((caracter) => {
+                return polibioCode[caracter] || '';
+            }).join(' ');
+        }
+
+        // Función para comprobar el cifrado Polibio
+        function comprobarCifrado() {
+            const textoOriginal = document.getElementById('texto-original').value;
+            const textoCifrado = convertirAPolibio(textoOriginal);
+            const inputUsuario = document.getElementById('texto-cifrado').value.toUpperCase();
+
+            // Mostrar el resultado en consola
+            console.log(`Texto cifrado correcto: ${textoCifrado}`);
+
+            if (inputUsuario === textoCifrado) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Correcto!',
+                    text: 'Has descifrado el mensaje correctamente.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Incorrecto',
+                    text: 'El texto cifrado no es correcto. Inténtalo de nuevo.',
+                });
+            }
+        }
+
+        // Función para mostrar ayuda al hacer clic en la imagen
+        function mostrarAyuda() {
+            Swal.fire({
+                title: '¿Cómo funciona el Cifrado Polibio?',
+                html: `
+                    <p>El Cifrado Polibio es un sistema de codificación en el que cada letra del alfabeto se representa con dos números, 
+                    usando una cuadrícula 5x5. Las letras "I" y "J" se representan con el mismo número.</p>
+                    <p><strong>Ejemplo:</strong></p>
+                    <p>A → 11, B → 12, C → 13, ..., Z → 55</p>
+                    <p>¡Intenta convertir el texto a Cifrado Polibio!</p>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Entendido',
+                customClass: {
+                    content: 'swal2-content',
+                },
+            });
+        }
+
+        // Función para mostrar historia y curiosidades del Cifrado Polibio
+        function mostrarHistoria() {
+            Swal.fire({
+                title: 'Historia del Cifrado Polibio',
+                html: `
+                    <p>El Cifrado Polibio fue inventado por el matemático griego Polibio en el siglo II a.C. 
+                    Se utilizaba en la antigua Grecia para enviar mensajes secretos. El sistema de codificación permite que 
+                    las letras sean representadas mediante coordenadas en una cuadrícula.</p>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Cerrar',
+            });
+        }
+    </script>
+</body>
+</html>
